@@ -32,8 +32,8 @@ aby som mohol meniť farby textu podľa stavu (error).
 
 Všetkým týmto textom som pridal aj možnosť zmeny prednastavenej farby (v prípade, ak by to chcel niekto meniť).
 
-### Príliž dlhé texty
-Už pri pozretí na zadanie som videl potenciálny problém s príliž dlhými textami. V prípade ak by som v pôvodnej hierarchii pouižil
+### Príliš dlhé texty
+Už pri pozretí na zadanie som videl potenciálny problém s príliš dlhými textami. V prípade ak by som v pôvodnej hierarchii pouižil
 Row a label text by bol príliž dlhý, optional text sa ani nezobrazí. Preto som sa rozhodol použiť FlowRow namiesto Row.
 https://developer.android.com/develop/ui/compose/layouts/flow
 Nová hierarchia teda vyzerala takto:
@@ -44,7 +44,7 @@ Column
         - Text (optional text)
     - OutlinedTextField
 ```
-FlowRow zabezpečí, že ak je label text príliž dlhý, optional text sa presunie do daľšieho riadku.
+FlowRow zabezpečí, že ak je label text príliš dlhý, optional text sa presunie do daľšieho riadku.
 
 Počaš používania FlowRow som narazil na problém so zarovnaním textu, nakoľko veľkosť riadku pri rozdielnych 
 textových štýloch spôsobovala, že sa nezarovnávali správne. Našiel som ale diskuskiu v ktorej tento problém prebrali
