@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CustomTextField</string>
     <string name="enter_password">Enter password</string>
-    <string name="password_support_text">Make sure password is secure</string>
+    <string name="password">Password</string>
+    <string name="password_optional_text">Password needs at least 8 characters, one capital letter, one number and one special symbol</string>
     <string name="password_8_chars">At least 8 characters</string>
     <string name="password_one_uppercase">At least one uppercase character</string>
     <string name="password_one_number">At least one number</string>

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
@@ -44,29 +45,33 @@ fun InputView(
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
 
-    // I created labelText and label. When labelText is used, default styling (based on task) is used
     labelText: String? = null,
-    // To override default styles, you can use label
-    label: @Composable (() -> Unit)? = null,
+    labelTextStyle: TextStyle = TextStyleLabelMedium,
+    labelDefaultTextColor: Color = ColorContentHigh,
 
-    // Optional texts work the same as label texts
     optionalText: String? = null,
-    optional: @Composable (() -> Unit)? = null,
+    optionalTextStyle: TextStyle = TextStyleLabelSmall,
+    optionalDefaultTextColor: Color = ColorContentMedium,
 
     // Placeholder texts work the same as the above
     placeholderText: String? = null,
-    placeholder: @Composable (() -> Unit)? = null,
+    placeholderTextStyle: TextStyle = TextStyleBodyMedium,
+    placeholderTextColor: Color = ColorContentLow,
 
     // This parameter overrides default text style (inside input)
-    textStyle: TextStyle? = null,
+    textStyle: TextStyle = TextStyleBodyMedium,
 
     // You can change the spacing between label and field and also between label and optional text
-    labelFieldSpacing: Dp? = null,
-    supportTextSpacing: Dp? = null,
+    labelFieldSpacing: Dp = SpacingExtraSmall,
+    supportTextSpacing: Dp = SpacingExtraSmall,
+
+    // Error styles
+    errorColor: Color = ColorSurfaceDanger,
 
     // All following parameters were added to ensure that every customization available for
-    // OutlinedTextField is available. Default values were copied from default implementation of OutlinedTextField.
-    shape: Shape? = null,
+    // OutlinedTextField is available. Default values were copied from default implementation of OutlinedTextField
+    // or some specific ones (shape and colors) are from the Figma.
+    shape: Shape = RoundedCornerShape(TextInputRadius),
     isError: Boolean = false,
     enabled: Boolean = true,
     readOnly: Boolean = false,
@@ -88,40 +93,35 @@ fun InputView(
     )
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(labelFieldSpacing ?: SpacingExtraSmall)
+        verticalArrangement = Arrangement.spacedBy(labelFieldSpacing)
     ) {
         // FlowRow ensures that when the label text is too long, the optional text is on the next line
         FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(supportTextSpacing ?: SpacingExtraSmall),
+            horizontalArrangement = Arrangement.spacedBy(supportTextSpacing),
             verticalArrangement = Arrangement.Center
         ) {
-            when {
-                label != null -> label()
-                labelText != null -> Text(
-                    labelText,
-                    style = TextStyleLabelMedium,
-                    color = if (isError) ColorSurfaceDanger else ColorContentHigh,
-                )
-            }
-            when {
-                optional != null -> optional()
-                optionalText != null -> Text(
-                    optionalText,
-                    // This modifier is required in order to arrange value to center, so that baseline
-                    // of label and optional text is the same
-                    // Source: https://slack-chats.kotlinlang.org/t/12085939/has-anyone-been-able-to-successfully-use-flowrow-and-alignme
-                    modifier = Modifier.align(Alignment.CenterVertically),
-                    style = TextStyleLabelSmall,
-                    color = ColorContentMedium
-                )
-            }
+            if (labelText != null) Text(
+                labelText,
+                style = labelTextStyle,
+                color = if (isError) errorColor else labelDefaultTextColor,
+            )
+            if (optionalText != null) Text(
+                optionalText,
+                // This modifier is required in order to arrange value to center, so that baseline
+                // of label and optional text is the same
+                // Source: https://slack-chats.kotlinlang.org/t/12085939/has-anyone-been-able-to-successfully-use-flowrow-and-alignme
+                modifier = Modifier.align(Alignment.CenterVertically),
+                style = optionalTextStyle,
+                color = optionalDefaultTextColor
+            )
         }
+
         OutlinedTextField(
             value,
-            textStyle = textStyle ?: TextStyleBodyMedium,
+            textStyle = textStyle,
             modifier = modifier,
             onValueChange = onValueChange,
-            shape = shape ?: RoundedCornerShape(TextInputRadius),
+            shape = shape,
             isError = isError,
             enabled = enabled,
             readOnly = readOnly,
@@ -140,11 +140,10 @@ fun InputView(
             colors = colors,
             placeholder = {
                 when {
-                    placeholder != null -> placeholder()
                     placeholderText != null -> Text(
                         placeholderText,
-                        style = TextStyleBodyMedium,
-                        color = ColorContentLow
+                        style = placeholderTextStyle,
+                        color = placeholderTextColor
                     )
                 }
             }

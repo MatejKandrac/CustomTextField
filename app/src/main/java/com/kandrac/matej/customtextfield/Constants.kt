@@ -49,7 +49,7 @@ val TextStyleLabelMedium = TextStyle(
     fontSize = 16.sp,
     fontWeight = FontWeight(500),
     lineHeight = 22.sp,
-    letterSpacing = TextUnit(0.16f, TextUnitType.Sp)
+    letterSpacing = TextUnit(0.16f, TextUnitType.Sp),
 )
 
 val TextStyleLabelSmall = TextStyle(
@@ -67,6 +67,7 @@ val TextStyleBodyMedium = TextStyle(
     lineHeight = 22.sp,
     letterSpacing = TextUnit(0.01f, TextUnitType.Sp)
 )
+
 
 val TextInputRadius = 12.dp
 
